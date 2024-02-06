@@ -17,21 +17,16 @@ class MyServer(BaseHTTPRequestHandler):
             response = file.read()
         return response
 
-    def __get_html_content(self):
-        return """
-        
-        """
-
     def do_GET(self):
         """ Метод для обработки входящих GET-запросов """
         query_components = parse_qs(urlparse(self.path).query)
         # page_address = query_components.get('page')
         page_content = self.__get_index()
-        # page_content = self.__get_html_content()
         self.send_response(200)  # Отправка кода ответа
-        self.send_header("Content-type", "application/json")  # Отправка типа данных, который будет передаваться
+        self.send_header("Content-type", "text/html")  # Отправка типа данных, который будет передаваться
         self.end_headers()  # Завершение формирования заголовков ответа
         self.wfile.write(bytes(page_content, "utf-8"))  # Тело ответа
+        print(query_components)
 
 if __name__ == "__main__":
     # Инициализация веб-сервера, который будет по заданным параметрам в сети
